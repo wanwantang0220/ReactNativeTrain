@@ -38,7 +38,7 @@ export default class App extends Component<Props> {
       </View>
     );
   }
-  
+
 }
 
 const styles = StyleSheet.create({
