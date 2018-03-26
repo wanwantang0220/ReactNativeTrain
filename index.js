@@ -1,4 +1,13 @@
+import React,{Component} from 'react';
 import { AppRegistry } from 'react-native';
-import App from './App';
+import Navigation from './js/Navigation';
 
-AppRegistry.registerComponent('ReactNativeTrain', () => App);
+export default class JueJinClient extends Component {
+    render() {
+        return (
+            <Navigation/>
+        );
+    }
+}
+
+AppRegistry.registerComponent('ReactNativeTrain', () => JueJinClient);
