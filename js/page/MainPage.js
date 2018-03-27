@@ -8,6 +8,7 @@ import React, {Component} from 'react';
 import {Platform, Text, View, BackHandler, ToastAndroid} from 'react-native';
 import WebViewPage from './WebViewPage';
 import IndividualPage from './IndividualPage';
+import TabBar from '../components/TabBar';
 
 
 export default class MainPage extends Component<Props> {
@@ -50,9 +51,9 @@ export default class MainPage extends Component<Props> {
     render() {
         return (
 
-            <Text>
-                Welcome to React Native!
-            </Text>
+            <View style={{flex: 1, justifyContent: 'flex-end'}}>
+                <TabBar></TabBar>
+            </View>
 
         );
     }
