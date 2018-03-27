@@ -6,6 +6,7 @@ import HomeFragmentPage from '../page/HomeFragmentPage';
 import CompassFragmentPage from '../page/CompassFragmentPage';
 import NotifyFragmentPage from '../page/NotifyFragmentPage';
 import MeFragmentPage from '../page/MeFragmentPage';
+import px2dp from '../util/px2dp';
 
 
 export default class TabBar extends Component {
@@ -13,7 +14,7 @@ export default class TabBar extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedTab: 'Home',
+            selectedTab: 'home',
             tabName: ['首页', '发现', '消息', '我']
         }
     }
@@ -27,14 +28,14 @@ export default class TabBar extends Component {
 
     componentWillMount() {
         const {selectedColor, normalColor} = this.props;
-        Icon.getImageSource('md-notifications', 50, normalColor).then((source) => this.setState({notificationNormal: source}));
-        Icon.getImageSource('md-notifications', 50, selectedColor).then((source) => this.setState({notificationSelected: source}));
-        Icon.getImageSource('md-home', 50, normalColor).then((source) => this.setState({homeNormal: source}));
-        Icon.getImageSource('md-home', 50, selectedColor).then((source) => this.setState({homeSelected: source}));
-        Icon.getImageSource('md-person', 50, normalColor).then((source) => this.setState({meNormal: source}));
-        Icon.getImageSource('md-person', 50, selectedColor).then((source) => this.setState({meSelected: source}));
-        Icon.getImageSource('md-compass', 50, normalColor).then((source) => this.setState({compassNormal: source}));
-        Icon.getImageSource('md-compass', 50, selectedColor).then((source) => this.setState({compassSelected: source}));
+        Icon.getImageSource('md-notifications', 40, normalColor).then((source) => this.setState({notificationNormal: source}));
+        Icon.getImageSource('md-notifications', 40, selectedColor).then((source) => this.setState({notificationSelected: source}));
+        Icon.getImageSource('md-home', 40, normalColor).then((source) => this.setState({homeNormal: source}));
+        Icon.getImageSource('md-home', 40, selectedColor).then((source) => this.setState({homeSelected: source}));
+        Icon.getImageSource('md-person', 40, normalColor).then((source) => this.setState({meNormal: source}));
+        Icon.getImageSource('md-person', 40, selectedColor).then((source) => this.setState({meSelected: source}));
+        Icon.getImageSource('md-compass', 40, normalColor).then((source) => this.setState({compassNormal: source}));
+        Icon.getImageSource('md-compass', 40, selectedColor).then((source) => this.setState({compassSelected: source}));
     }
 
     render() {
@@ -92,7 +93,7 @@ export default class TabBar extends Component {
 
                     {<MeFragmentPage navigator={this.props.navigator}/>}
                 </TabNavigator.Item>
-            </TabNavigator.Item>
+            </TabNavigator>
         )
     }
 }
@@ -100,13 +101,13 @@ export default class TabBar extends Component {
 
 const styles = StyleSheet.create({
     tabbar: {
-        height: px2dp(49),
+        height: px2dp(50),
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#fff'
     },
     tabStyle: {
-        padding: px2dp(8)
+        padding: px2dp(0)
     },
     tab: {
         width: px2dp(22),
