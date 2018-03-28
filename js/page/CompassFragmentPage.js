@@ -1,8 +1,10 @@
 
 import React, {Component} from 'react';
 import {Text, View, StyleSheet, Platform, RefreshControl, ScrollView, ToastAndroid, Image, Dimensions, PixelRatio, Alert, AlertIOS} from 'react-native';
+import PropTypes from 'prop-types';
 
 export default class CompassFragmentPage extends Component {
+
     constructor(props) {
         super(props);
         this.state = {

@@ -3,8 +3,8 @@ import {Text, StyleSheet, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import TabNavigator from 'react-native-tab-navigator';
 import HomeFragmentPage from '../page/HomeFragmentPage';
-import CompassFragmentPage from '../page/CompassFragmentPage';
-import NotifyFragmentPage from '../page/NotifyFragmentPage';
+// import CompassFragmentPage from '../page/CompassFragmentPage';
+// import NotifyFragmentPage from '../page/NotifyFragmentPage';
 import MeFragmentPage from '../page/MeFragmentPage';
 import px2dp from '../util/px2dp';
 
@@ -59,28 +59,28 @@ export default class TabBar extends Component {
                     {<HomeFragmentPage navigator={this.props.navigator}/>}
                 </TabNavigator.Item>
 
-                <TabNavigator.Item
-                    tabStyle={styles.tabStyle}
-                    title={tabName[1]}
-                    selected={this.state.selectedTab === 'compass'}
-                    selectedTitleStyle={{color: selectedColor}}
-                    renderIcon={() => <Image style={styles.tab} source={this.state.compassNormal} />}
-                    renderSelectedIcon={() => <Image style={styles.tab} source={this.state.compassSelected} />}
-                    onPress={() => this.setState({ selectedTab: 'compass' })}>
+                {/*<TabNavigator.Item*/}
+                    {/*tabStyle={styles.tabStyle}*/}
+                    {/*title={tabName[1]}*/}
+                    {/*selected={this.state.selectedTab === 'compass'}*/}
+                    {/*selectedTitleStyle={{color: selectedColor}}*/}
+                    {/*renderIcon={() => <Image style={styles.tab} source={this.state.compassNormal} />}*/}
+                    {/*renderSelectedIcon={() => <Image style={styles.tab} source={this.state.compassSelected} />}*/}
+                    {/*onPress={() => this.setState({ selectedTab: 'compass' })}>*/}
 
-                    {<CompassFragmentPage />}
-                </TabNavigator.Item>
-                <TabNavigator.Item
-                    tabStyle={styles.tabStyle}
-                    title={tabName[2]}
-                    selected={this.state.selectedTab === 'notification'}
-                    selectedTitleStyle={{color: selectedColor}}
-                    renderIcon={() => <Image style={styles.tab} source={this.state.notificationNormal} />}
-                    renderSelectedIcon={() => <Image style={styles.tab} source={this.state.notificationSelected} />}
-                    onPress={() => this.setState({ selectedTab: 'notification' })}>
+                    {/*{<CompassFragmentPage />}*/}
+                {/*</TabNavigator.Item>*/}
+                {/*<TabNavigator.Item*/}
+                    {/*tabStyle={styles.tabStyle}*/}
+                    {/*title={tabName[2]}*/}
+                    {/*selected={this.state.selectedTab === 'notification'}*/}
+                    {/*selectedTitleStyle={{color: selectedColor}}*/}
+                    {/*renderIcon={() => <Image style={styles.tab} source={this.state.notificationNormal} />}*/}
+                    {/*renderSelectedIcon={() => <Image style={styles.tab} source={this.state.notificationSelected} />}*/}
+                    {/*onPress={() => this.setState({ selectedTab: 'notification' })}>*/}
 
-                    {<NotifyFragmentPage  navigator={this.props.navigator}/>}
-                </TabNavigator.Item>
+                    {/*{<NotifyFragmentPage  navigator={this.props.navigator}/>}*/}
+                {/*</TabNavigator.Item>*/}
 
                 <TabNavigator.Item
                     tabStyle={styles.tabStyle}
