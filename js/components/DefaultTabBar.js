@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Dimensions,} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity, Dimensions,Animated} from 'react-native';
 import PropTypes from 'prop-types';
 
 
@@ -12,34 +12,63 @@ export default class DefaultTabBar extends Component {
 
     static propTypes = {
         tabs: PropTypes.array.isRequired,
+        activeTab: PropTypes.number,//当前选中的tab
+        style: View.propTypes.style,
     }
 
     constructor(props) {
         super(props);
         // 初始状态
-        this.state = {
-
-        };
+        this.state = {};
     }
 
     render() {
 
-
+        let tabStyle = {
+            width: this.props.containerWidth / this.props.tabs.length,
+            position: 'absolute',
+            bottom: 0
+        }
         return (
-            <View style={styles.container}>
+
+            <View style={[styles.container, this.props.style]}>
                 {this.props.tabs.map((name, page) => {
-                    return this.renderTab(name, page);
+                    const isTabActive = this.props.activeTab === page;
+                    return this.renderTab(name, page, isTabActive);
                 })}
+                <Animated.View
+                    style={[styles.tabLineStyle, tabStyle]}
+                />
             </View>
         )
     }
 
-    renderTab(name, page) {
+    /**
+     * 渲染tab
+     * @param name 名字
+     * @param page 下标
+     * @param isTabActive 是否是选中的tab
+     * @private
+     * @returns {*}
+     */
+    renderTab(name, page, isTabActive) {
+        let tabTextStyle = null;
+        //如果被选中的style
+        if (isTabActive) {
+            tabTextStyle = {color: 'red'};
+        } else {
+            tabTextStyle = {color: 'gray'};
+        }
+
+        let self = this;
         return (
             <TouchableOpacity
                 key={name + page}
-                style={styles.tabStyle}>
-                <Text>{name}</Text>
+                style={[styles.tabStyle]}
+                onPress={() => {
+                    this.props.onTabClick(page)
+                }}>
+                <Text style={[tabTextStyle]}>{name}</Text>
             </TouchableOpacity>
         )
     }
@@ -56,5 +85,9 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    tabLineStyle: {
+        height: 2,
+        backgroundColor: 'navy',
     }
 });
