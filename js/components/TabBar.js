@@ -2,9 +2,11 @@ import React, {Component} from 'react';
 import {Text, StyleSheet, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import TabNavigator from 'react-native-tab-navigator';
-import HomeFragmentPage from '../page/HomeFragmentPage';
+// import HomeFragmentPage from '../page/HomeFragmentPage';
 // import CompassFragmentPage from '../page/CompassFragmentPage';
 // import NotifyFragmentPage from '../page/NotifyFragmentPage';
+
+import ScrollableTabPage from '../page/ScrollableTabPage';
 import MeFragmentPage from '../page/MeFragmentPage';
 import px2dp from '../util/px2dp';
 
@@ -56,7 +58,7 @@ export default class TabBar extends Component {
                     renderSelectedIcon={() => <Image style={styles.tab} source={this.state.homeSelected} />}
                     onPress={() => this.setState({ selectedTab: 'home' })}>
 
-                    {<HomeFragmentPage navigator={this.props.navigator}/>}
+                    {<ScrollableTabPage navigator={this.props.navigator}/>}
                 </TabNavigator.Item>
 
                 {/*<TabNavigator.Item*/}

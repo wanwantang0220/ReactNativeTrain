@@ -1,6 +1,6 @@
 
 import React, {Component} from 'react';
-import {Text, View, StyleSheet, Platform, ScrollView, Button , Animated,Dimensions,TouchableOpacity,
+import {Text, View, StyleSheet, Platform, ScrollView,  Animated,Dimensions,TouchableOpacity,
     TouchableNativeFeedback,} from 'react-native';
 import PropTypes from 'prop-types';
 import px2dp from '../util/px2dp';
@@ -28,7 +28,19 @@ const WINDOW_WIDTH = Dimensions.get('window').width;
 
 export default class CustomTabBar extends Component{
 
-    propTypes: {
+
+    constructor(props){
+        super(props);
+        this.state ={
+            _leftTabUnderline: new Animated.Value(0),
+            _widthTabUnderline: new Animated.Value(0),
+            _containerWidth: null,
+            tabs:[]
+        }
+        this.tabsMeasurements = [];
+    }
+
+    static propTypes = {
         goToPage: PropTypes.func,
         activeTab: PropTypes.number,
         tabs: PropTypes.array,
@@ -36,40 +48,29 @@ export default class CustomTabBar extends Component{
         activeTextColor: PropTypes.string,
         inactiveTextColor: PropTypes.string,
         scrollOffset: PropTypes.number,
-        style: View.PropTypes.style,
-        tabStyle: View.PropTypes.style,
-        tabsContainerStyle: View.PropTypes.style,
-        textStyle: Text.propTypes.style,
+        style: PropTypes.style,
+        tabStyle: PropTypes.style,
+        tabsContainerStyle: PropTypes.style,
+        textStyle: PropTypes.style,
         renderTab: PropTypes.func,
-        underlineStyle: View.PropTypes.style,
+        underlineStyle: PropTypes.style,
         pullDownOnPress: PropTypes.func
-    }
+    };
 
-
-    getDefaultProps() {
-        return {
-            scrollOffset: 52,
-            activeTextColor: 'navy',
-            inactiveTextColor: 'black',
-            backgroundColor: null,
-            style: {},
-            tabStyle: {},
-            tabsContainerStyle: {},
-            underlineStyle: {},
-        };
-    }
-
-    getInitialState() {
-        this.tabsMeasurements = [];
-        return {
-            _leftTabUnderline: new Animated.Value(0),
-            _widthTabUnderline: new Animated.Value(0),
-            _containerWidth: null,
-        };
-    }
+    static defaultProps = {
+        scrollOffset: 52,
+        activeTextColor: 'navy',
+        inactiveTextColor: 'black',
+        backgroundColor: null,
+        style: {},
+        tabStyle: {},
+        tabsContainerStyle: {},
+        underlineStyle: {},
+        tabs:[]
+    };
 
     componentDidMount() {
-        this.props.scrollValue.addListener(this.updateView);
+        this.props.scrollValue.addListener(this.updateView2);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -93,6 +94,7 @@ export default class CustomTabBar extends Component{
             left: this.state._leftTabUnderline,
             width: this.state._widthTabUnderline,
         };
+
 
         return <View style={{flexDirection: 'row-reverse'}}>
             <View style={{height: theme.actionBar.height}}>
@@ -120,8 +122,24 @@ export default class CustomTabBar extends Component{
                         onLayout={this.onTabContainerLayout}>
                         {this.props.tabs.map((name, page) => {
                             const isTabActive = this.props.activeTab === page;
-                            const renderTab = this.props.renderTab || this.renderTab;
-                            return renderTab(name, page, isTabActive, this.props.goToPage, this.measureTab.bind(this, page));
+                            const { activeTextColor, inactiveTextColor,textStyle} = this.props;
+                            const textColor = isTabActive ? activeTextColor : inactiveTextColor;
+                            const fontWeight = isTabActive ? 'normal' : 'normal';
+
+
+                            return <Button
+                                key={`${name}_${page}`}
+                                accessible={true}
+                                accessibilityLabel={name}
+                                accessibilityTraits='button'
+                                onPress={() => this.props.goToPage}
+                                onLayout={this.measureTab.bind(this, page)}>
+                                <View style={[styles.tab ]}>
+                                    <Text style={[{color: textColor, fontWeight, }, textStyle ]}>
+                                        {name}
+                                    </Text>
+                                </View>
+                            </Button>
                         })}
                         <Animated.View style={[tabUnderlineStyle, dynamicTabUnderline, this.props.underlineStyle, ]} />
                     </View>
@@ -131,7 +149,7 @@ export default class CustomTabBar extends Component{
     }
 
     renderTab(name, page, isTabActive, onPressHandler, onLayoutHandler) {
-        const { activeTextColor, inactiveTextColor, textStyle, } = this.props;
+        const { activeTextColor, inactiveTextColor} = this.props;
         const textColor = isTabActive ? activeTextColor : inactiveTextColor;
         const fontWeight = isTabActive ? 'normal' : 'normal';
 
@@ -142,12 +160,28 @@ export default class CustomTabBar extends Component{
             accessibilityTraits='button'
             onPress={() => onPressHandler(page)}
             onLayout={onLayoutHandler}>
-            <View style={[styles.tab, this.props.tabStyle, ]}>
+            <View style={[styles.tab ]}>
                 <Text style={[{color: textColor, fontWeight, }, textStyle, ]}>
                     {name}
                 </Text>
             </View>
         </Button>;
+    }
+
+    updateView2(offset){
+        const position = Math.floor(offset.value);
+        const pageOffset = offset.value % 1;
+        const tabCount = this.props.tabs.length;
+        const lastTabPosition = tabCount - 1;
+
+        if (tabCount === 0 || offset.value < 0 || offset.value > lastTabPosition) {
+            return;
+        }
+
+        if (this.necessarilyMeasurementsCompleted(position, position === lastTabPosition)) {
+            this.updateTabPanel(position, pageOffset);
+            this.updateTabUnderline(position, pageOffset, tabCount);
+        }
     }
 
     updateView(offset) {
@@ -215,25 +249,6 @@ export default class CustomTabBar extends Component{
         }
     }
 
-    renderTab(name, page, isTabActive, onPressHandler, onLayoutHandler) {
-        const { activeTextColor, inactiveTextColor, textStyle, } = this.props;
-        const textColor = isTabActive ? activeTextColor : inactiveTextColor;
-        const fontWeight = isTabActive ? 'normal' : 'normal';
-
-        return <Button
-            key={`${name}_${page}`}
-            accessible={true}
-            accessibilityLabel={name}
-            accessibilityTraits='button'
-            onPress={() => onPressHandler(page)}
-            onLayout={onLayoutHandler}>
-            <View style={[styles.tab, this.props.tabStyle, ]}>
-                <Text style={[{color: textColor, fontWeight, }, textStyle, ]}>
-                    {name}
-                </Text>
-            </View>
-        </Button>;
-    }
 
     measureTab(page, event) {
         const { x, width, height, } = event.nativeEvent.layout;
