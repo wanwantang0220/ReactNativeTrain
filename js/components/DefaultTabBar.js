@@ -14,6 +14,8 @@ export default class DefaultTabBar extends Component {
         tabs: PropTypes.array.isRequired,
         activeTab: PropTypes.number,//当前选中的tab
         style: View.propTypes.style,
+        onTabClick: PropTypes.func,
+        containerWidth: PropTypes.number
     }
 
     constructor(props) {
@@ -23,6 +25,12 @@ export default class DefaultTabBar extends Component {
     }
 
     render() {
+
+        let {containerWidth, tabs, scrollValue}=this.props;
+        //给传过来的动画一个插值器
+        const left = scrollValue.interpolate({
+            inputRange: [0, 1,], outputRange: [0, containerWidth / tabs.length,],
+        });
 
         let tabStyle = {
             width: this.props.containerWidth / this.props.tabs.length,

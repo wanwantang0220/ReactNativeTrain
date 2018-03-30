@@ -18,19 +18,19 @@ export default class ScrollableTab extends Component {
         this.state = {
             containerWidth: screenW,
             currentPage: 0,//当前页面
+            scrollXAnim: new Animated.Value(0),
+            scrollValue: new Animated.Value(0),
         };
 
     }
 
     componentDidMount() {
-        //设置scroll动画监听
-        // this.state.scrollXAnim.addListener(({value})=> {
-        //     let offset = value / this.state.containerWidth;
-        //     this.state.scrollValue.setValue(offset);
-        // });
-        // this.state.scrollValue.addListener(({value})=>{
-        //     console.log('offset-->' + value);
-        // })
+       // 设置scroll动画监听
+        this.state.scrollXAnim.addListener(({value})=> {
+            let offset = value / this.state.containerWidth;
+            this.state.scrollValue.setValue(offset);
+        });
+
     }
 
 
@@ -50,22 +50,24 @@ export default class ScrollableTab extends Component {
 
     componentWillUnMount() {
         //移除动画监听
-        // this.state.scrollXAnim.removeAllListeners();
+        this.state.scrollXAnim.removeAllListeners();
+        this.state.scrollValue.removeAllListeners();
     }
+
     renderTabView() {
 
         let tabParams = {
             tabs: this.children().map((child) => child.props.tabLabel),
             activeTab: this.state.currentPage,
-            scrollValue: this.state.scrollValue
+            scrollValue: this.state.scrollValue,
+            containerWidth: this.state.containerWidth,
         };
         return (
             <DeFaultTabBar
                 {...tabParams}
                 style={[{width: this.state.containerWidth}]}
-                onTabClick={(page) =>
-                    this.goToPage(page)
-                }/>
+                onTabClick={(page)=>this.goToPage(page)}
+            />
         )
     }
 
@@ -135,8 +137,8 @@ export default class ScrollableTab extends Component {
      * @param scrollAnimation 是否需要动画
      */
     goToPage(pageNum, scrollAnimation = true) {
-        if (this._scrollView && this._scrollView._component && this._scrollView._component.scrollTo) {
-            this._scrollView._component.scrollTo({x: pageNum * this.state.containerWidth, scrollAnimation});
+        if (this.scrollView && this.scrollView.component && this.scrollView.component.scrollTo) {
+            this.scrollView.component.scrollTo({x: pageNum * this.state.containerWidth, scrollAnimation});
             this.setState({
                 currentPage: pageNum,
             });
