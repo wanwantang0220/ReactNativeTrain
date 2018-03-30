@@ -63,9 +63,9 @@ export default class ScrollableTab extends Component {
             <DeFaultTabBar
                 {...tabParams}
                 style={[{width: this.state.containerWidth}]}
-                onTabClick={(page) => {
-                    this.goToPage(page);
-                }}/>
+                onTabClick={(page) =>
+                    this.goToPage(page)
+                }/>
         )
     }
 
