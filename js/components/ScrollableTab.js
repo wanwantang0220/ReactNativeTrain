@@ -10,7 +10,13 @@ const screenH = Dimensions.get('window').height;
 
 export default class ScrollableTab extends Component {
 
-    static propTypes = {}
+    static propTypes = {
+        prerenderingSiblingsNumber: PropTypes.number,//预加载的页面
+    }
+
+    static defaultProps = {
+        prerenderingSiblingsNumber: 0,//不需要预加载
+    }
 
     constructor(props) {
         super(props);
@@ -20,19 +26,19 @@ export default class ScrollableTab extends Component {
             currentPage: 0,//当前页面
             scrollXAnim: new Animated.Value(0),
             scrollValue: new Animated.Value(0),
+            sceneKeys: this.newSceneKeys({currentPage: 0}),
         };
 
     }
 
     componentDidMount() {
-       // 设置scroll动画监听
-        this.state.scrollXAnim.addListener(({value})=> {
+        // 设置scroll动画监听
+        this.state.scrollXAnim.addListener(({value}) => {
             let offset = value / this.state.containerWidth;
             this.state.scrollValue.setValue(offset);
         });
 
     }
-
 
 
     render() {
@@ -66,7 +72,7 @@ export default class ScrollableTab extends Component {
             <DeFaultTabBar
                 {...tabParams}
                 style={[{width: this.state.containerWidth}]}
-                onTabClick={(page)=>this.goToPage(page)}
+                onTabClick={(page) => this.goToPage(page)}
             />
         )
     }
@@ -78,7 +84,7 @@ export default class ScrollableTab extends Component {
                 ref={(ref) => {
                     this.scrollView = ref;
                 }}
-                style={styles.scrollStyle}
+                style={{width: this.state.containerWidth}}
                 pagingEnabled={true}
                 horizontal={true}
                 bounces={false}
@@ -91,10 +97,35 @@ export default class ScrollableTab extends Component {
                 }], {
                     useNativeDriver: true,
                 })}>
-                {this.props.children}
+                {this.renderContentView()}
             </Animated.ScrollView>
         )
     }
+
+
+    /**
+     * 渲染子view
+     * @private
+     */
+    renderContentView(){
+        let scenes = [];
+        this.children().forEach((child, index)=> {
+            const sceneKey = this.makeSceneKey(child, index);
+            let scene = null;
+            if (this.keyExists(this.state.sceneKeys, sceneKey)) {
+                scene = (child);
+            } else {
+                scene = (<View tabLabel={child.tabLabel}/>);
+            }
+            scenes.push(
+                <View key={child.key} style={{width: this.state.containerWidth}}>
+                    {scene}
+                </View>
+            );
+        });
+        return scenes;
+    }
+
 
     children(children = this.props.children) {
         return React.Children.map(children, (child) => child);
@@ -123,10 +154,7 @@ export default class ScrollableTab extends Component {
         let offsetX = e.nativeEvent.contentOffset.x;
         let page = Math.round(offsetX / this.state.containerWidth);
         if (this.state.currentPage !== page) {
-            console.log('当前页面-->' + page);
-            this.setState({
-                currentPage: page,
-            });
+            this.updateKeyScenes(page);
         }
     }
 
@@ -137,32 +165,87 @@ export default class ScrollableTab extends Component {
      * @param scrollAnimation 是否需要动画
      */
     goToPage(pageNum, scrollAnimation = true) {
-        if (this.scrollView && this.scrollView.component && this.scrollView.component.scrollTo) {
-            this.scrollView.component.scrollTo({x: pageNum * this.state.containerWidth, scrollAnimation});
+        if (this.scrollView && this.scrollView._component && this.scrollView._component.scrollTo) {
+            this.scrollView._component.scrollTo({x: pageNum * this.state.containerWidth, scrollAnimation});
             this.setState({
                 currentPage: pageNum,
             });
         }
     }
+
+    /**
+     * 生成需要渲染的页面跟渲染过的页面的集合
+     * @param previousKeys 之前的集合
+     * @param currentPage 当前页面
+     * @param children 子控件
+     * @private
+     */
+    newSceneKeys({previousKeys = [], currentPage = 0, children = this.props.children,}) {
+        let newKeys = [];
+
+        this.children().forEach((child, index)=>{
+            const key = this.makeSceneKey(child, index);
+            //页面是否渲染过||是否需要预加载
+            if (this.keyExists(previousKeys, key) || this.shouldSceneRender(index, currentPage)) {
+                newKeys.push(key);
+            }
+        });
+        return newKeys;
+    }
+
+    /**
+     * 生成唯一key
+     * @param child 子控件
+     * @param index 下标
+     * @private
+     */
+    makeSceneKey(child,index){
+        return (child.props.tabLabel + '_' + index);
+    }
+
+
+    /**
+     * 判断key是否存在
+     * @param previousKeys key集合
+     * @param key 当前key
+     * @private
+     */
+    keyExists(previousKeys, key){
+        return (previousKeys.find((sceneKey)=>sceneKey === key));
+    }
+
+    /**
+     * 是否需要预加载
+     * @param index
+     * @param currentPage
+     */
+    shouldSceneRender(index, currentPage){
+        const siblingsNumber = this.props.prerenderingSiblingsNumber;
+        //比如当前页面为1，预加载1个，也就是我们需要显示0、1、2三个页面，所[-1<x<3]
+        return (index < (currentPage + siblingsNumber + 1) && index > (currentPage - siblingsNumber - 1));
+    }
+
+    /**
+     * 更新sceneskey和当前页面
+     * @param nextPage
+     * @private
+     */
+    updateKeyScenes(nextPage){
+        let sceneKeys = this.newSceneKeys({previousKeys: this.state.sceneKeys, currentPage: nextPage})
+        this.setState({
+            currentPage: nextPage,
+            sceneKeys: sceneKeys,
+        });
+    }
+
+
+
 }
 const styles = StyleSheet.create({
     container: {
         width: screenW,
         flex: 1,
-        marginTop: 22,
-    },
-    scrollStyle: {
-        flex: 1,
-    },
-    tabContainer: {
-        width: screenW,
-        flexDirection: 'row',
-        alignItems: 'center',
-        height: 50,
-    },
-    tabStyle: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
+        marginTop: 0,
     }
+
 });

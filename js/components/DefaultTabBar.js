@@ -35,7 +35,8 @@ export default class DefaultTabBar extends Component {
         let tabStyle = {
             width: this.props.containerWidth / this.props.tabs.length,
             position: 'absolute',
-            bottom: 0
+            bottom: 0,
+            left,
         }
         return (
 
@@ -87,7 +88,7 @@ const styles = StyleSheet.create({
         width: screenW,
         flexDirection: 'row',
         alignItems: 'center',
-        height: 50,
+        height: 45,
     },
     tabStyle: {
         flex: 1,

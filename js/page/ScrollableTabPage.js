@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Text, ScrollView, StyleSheet, Dimensions, View, TouchableOpacity} from 'react-native';
 import ScrollableTab from "../components/ScrollableTab";
+import HomeTab from "../components/HomeTab";
 
 const screenW = Dimensions.get('window').width;
 const screenH = Dimensions.get('window').height;
@@ -12,7 +13,7 @@ export default class ScrollableTabPage extends Component {
         super(props);
         // 初始状态
         this.state = {
-            titleItem: ['页面一', '页面二', '页面三']
+            titleItem: ['First', 'Second', 'Third']
         };
 
     }
@@ -20,17 +21,13 @@ export default class ScrollableTabPage extends Component {
     render() {
         const titleItem = this.state.titleItem;
         return (
-            <View style={styles.container}>
-                <ScrollableTab>
-                    {titleItem.map((item, index) => {
-                        return (
-                            <Text tabLabel={item} key={item + index} style={{width: screenW, flex: 1,}}>
-                                {item}
-                            </Text>
-                        )
-                    })}
-                </ScrollableTab>
-            </View>
+            <ScrollableTab>
+                {titleItem.map((item, index) => {
+                    return (
+                       <HomeTab tabLabel={item} key={index} tabTag={item}/>
+                    )
+                })}
+            </ScrollableTab>
         )
     }
 }
