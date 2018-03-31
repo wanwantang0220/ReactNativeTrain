@@ -11,30 +11,30 @@ import IndividualPage from './IndividualPage';
 import TabBar from '../components/TabBar';
 
 
-export default class MainPage extends Component<Props> {
+export default class MainPage extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
         MainPage.switchToWebViewPage = MainPage.switchToWebViewPage.bind(this);
         MainPage.switchToIndividualPage = MainPage.switchToIndividualPage.bind(this);
     }
 
-    static  switchToWebViewPage(rowData){
+    static switchToWebViewPage(rowData) {
         this.props.navigator.push({
-            component:WebViewPage,
-            args:{
-                rowData:rowData
+            component: WebViewPage,
+            args: {
+                rowData: rowData
             }
 
         });
     }
 
 
-    static switchToIndividualPage(userInfo){
+    static switchToIndividualPage(userInfo) {
         this.props.navigator.push({
-            component:IndividualPage,
-            args:{
-                user:userInfo
+            component: IndividualPage,
+            args: {
+                user: userInfo
             }
         });
     }
@@ -42,7 +42,8 @@ export default class MainPage extends Component<Props> {
     componentDidMount() {
         if (Platform.OS === 'android') {
             BackHandler.addEventListener('hardwareBackPress', function () {
-                BackHandler.exitApp(0);
+                // BackHandler.exitApp(0);
+                this.props.navigator.pop();
                 return true;
             })
         }
@@ -52,7 +53,7 @@ export default class MainPage extends Component<Props> {
         return (
 
             <View style={{flex: 1, justifyContent: 'flex-end'}}>
-                <TabBar></TabBar>
+                <TabBar navigator={this.props.navigator}/>
             </View>
 
         );

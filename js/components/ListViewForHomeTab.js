@@ -16,6 +16,8 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import theme from '../config/theme';
 import TextButton from "./TextButton";
 import PropTypes from 'prop-types';
+import WebViewPage from '../page/WebViewPage';
+import MainPage from "../page/MainPage";
 
 export default class ListViewForHomeTab extends Component {
 
@@ -76,13 +78,14 @@ export default class ListViewForHomeTab extends Component {
     }
 
     titleCallBack(rowData) {
-        Alert.alert("title", rowData.title, [
-            {
-                text: 'OK', onPress: () => {
-                    console.log('OK Pressed!')
-                }
+       // MainPage.switchToWebViewPage(rowData);
+        this.props.navigator.push({
+            component:WebViewPage,
+            args:{
+                rowData:rowData
             }
-        ]);
+
+        });
     }
 }
 

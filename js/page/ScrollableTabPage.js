@@ -15,20 +15,25 @@ export default class ScrollableTabPage extends Component {
         this.state = {
             titleItem: ['First', 'Second', 'Third']
         };
-
+        this.handleTabNames = this.handleTabNames.bind(this);
     }
 
     render() {
         const titleItem = this.state.titleItem;
+        const navigator = this.props.navigator;
         return (
             <ScrollableTab>
                 {titleItem.map((item, index) => {
                     return (
-                       <HomeTab tabLabel={item} key={index} tabTag={item}/>
+                       <HomeTab navigator={navigator} tabLabel={item} key={index} tabTag={item}/>
                     )
                 })}
             </ScrollableTab>
         )
+    }
+
+    handleTabNames(tabNames){
+        this.setState({ tabNames: tabNames });
     }
 }
 const styles = StyleSheet.create({

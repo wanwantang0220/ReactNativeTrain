@@ -21,6 +21,7 @@ export default class HomeTab extends Component {
     }
 
     render() {
+
         return (
             <ScrollView
                 style={{}}
@@ -44,10 +45,11 @@ export default class HomeTab extends Component {
     }
 
     renderContent(){
+         const navigator = this.props.navigator;
         if(!this.state.refreshing || this.state.loadedData){
             return(
                 <View style={{marginBottom:50}}>
-                    {<ListViewForHomeTab dataBlob={this.state.dataBlob}/>}
+                    {<ListViewForHomeTab  navigator={navigator} dataBlob={this.state.dataBlob} />}
                 </View>
             )
         }

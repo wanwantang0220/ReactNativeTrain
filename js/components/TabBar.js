@@ -54,6 +54,7 @@ export default class TabBar extends Component {
                     tabStyle={styles.tabStyle}
                     title={tabName[0]}
                     selected={this.state.selectedTab === 'home'}
+                    selectedTitleStyle={{color: selectedColor}}
                     renderIcon={() => <Image style={styles.tab} source={this.state.homeNormal} />}
                     renderSelectedIcon={() => <Image style={styles.tab} source={this.state.homeSelected} />}
                     onPress={() => this.setState({ selectedTab: 'home' })}>
