@@ -76,7 +76,7 @@ export default class ListViewForHomeTab extends Component {
     }
 
     titleCallBack(rowData) {
-        Alert.alert("title", rowData, [
+        Alert.alert("title", rowData.title, [
             {
                 text: 'OK', onPress: () => {
                     console.log('OK Pressed!')
