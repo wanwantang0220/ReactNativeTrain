@@ -15,8 +15,17 @@ import {
 import PropTypes from 'prop-types';
 import theme from "../config/theme";
 import px2dp from "../util/px2dp";
+import CompassItem from "../components/CompassItem";
 
 export default class CompassFragmentPage extends Component {
+
+    static navigationOptions = {
+        title: '资讯',
+        tabBarLabel: '资讯',
+        headerTitleStyle: {
+            alignSelf: 'center'
+        },
+    };
 
     constructor(props) {
         super(props);
@@ -26,7 +35,7 @@ export default class CompassFragmentPage extends Component {
         this.state = {
             refreshing: true,
             loadedData: false,
-            dataBlob: ds.cloneWithRows([])
+            dataBlob: []
         }
     }
 
@@ -34,11 +43,9 @@ export default class CompassFragmentPage extends Component {
         this.fetchData();
     }
 
-    getIni
 
     render() {
-        console.log('dataSource',this.state.dataBlob);
-
+        const dataSource = this.state.dataBlob;
         return (
             <ScrollView
                 style={{}}
@@ -50,7 +57,8 @@ export default class CompassFragmentPage extends Component {
                         tintColor={theme.themeColor}
                         title="Loaging..."
                         title={theme.themeColor}/>}>
-                {this.renderContent.bind(this)}
+                {this.renderContent()}
+
             </ScrollView>
         )
     }
@@ -65,14 +73,13 @@ export default class CompassFragmentPage extends Component {
     renderContent() {
 
         const dataSource = this.state.dataBlob;
-        console.log('dataSource',dataSource);
+        console.log('dataSource', dataSource);
         if (!this.state.refreshing || this.state.loadedData) {
             return (
-                <View style={{marginBottom: 50}}>
-                    <ListView
-                        style={styles.listView}
-                        dataSource={dataSource}
-                        renderRow={(rowData) => <Text>{rowData.titleItem}</Text>}/>
+                <View>
+                    {dataSource.map((item, index) => {
+                        return <CompassItem compassItem={item} />
+                    })}
                 </View>
 
 
