@@ -8,32 +8,45 @@ const screenH = Dimensions.get('window').height;
 
 export default class ScrollableTabPage extends Component {
 
+    static navigationOptions = {
+        title: '首页',
+        tabBarLabel: '首页',
+        headerTitleStyle: {
+            alignSelf: 'center'
+        },
+    };
+
 
     constructor(props) {
         super(props);
         // 初始状态
         this.state = {
-            titleItem: ['First', 'Second', 'Third']
+            titleItem: [] //'First', 'Second', 'Third'
         };
         this.handleTabNames = this.handleTabNames.bind(this);
     }
 
     render() {
-        const titleItem = this.state.titleItem;
-        const navigator = this.props.navigator;
+        const { navigate } = this.props.navigation;
+        console.log("navigate1",navigate);
         return (
-            <ScrollableTab>
-                {titleItem.map((item, index) => {
-                    return (
-                       <HomeTab navigator={navigator} tabLabel={item} key={index} tabTag={item}/>
-                    )
-                })}
-            </ScrollableTab>
+            <HomeTab navigator={navigate}/>
+
         )
     }
 
-    handleTabNames(tabNames){
-        this.setState({ tabNames: tabNames });
+    /**
+     <ScrollableTab>
+     {titleItem.map((item, index) => {
+         return (
+             <HomeTab navigator={navigator} tabLabel={item} key={index} tabTag={item}/>
+         )
+     })}
+     </ScrollableTab>
+     **/
+
+    handleTabNames(tabNames) {
+        this.setState({tabNames: tabNames});
     }
 }
 const styles = StyleSheet.create({

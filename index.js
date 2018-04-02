@@ -1,13 +1,7 @@
-import React,{Component} from 'react';
-import { AppRegistry } from 'react-native';
+import React from 'react';
+import {AppRegistry} from 'react-native';
+import Router from './js/Router';
 import Navigation from './js/Navigation';
 
-export default class JueJinClient extends Component {
-    render() {
-        return (
-            <Navigation/>
-        );
-    }
-}
 
-AppRegistry.registerComponent('ReactNativeTrain', () => JueJinClient);
+AppRegistry.registerComponent('ReactNativeTrain', () => Router);

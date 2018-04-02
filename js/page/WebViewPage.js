@@ -7,6 +7,7 @@ import {
     PixelRatio,
     WebView,
     ToastAndroid,
+    Button,
     BackAndroid,
     ActivityIndicator, BackHandler
 } from 'react-native';
@@ -24,26 +25,27 @@ export default class WebViewPage extends Component {
         const data = this.props.rowData;
 
         return (
-            <Text>Test</Text>
+            <Button title='Test' onPress={this.click.bind(this)}/>
         )
     }
 
+
+    click(){
+        this.props.navigator.pop();
+    }
     componentDidMount() {
         if (Platform.OS === 'android') {
-            BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid);
-
+            //BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid);
         }
     }
 
     componentWillUnmount(){
         if (Platform.OS === 'android') {
-            BackHandler.removeEventListener('hardwareBackPress', this.onBackAndroid);
+            //BackHandler.removeEventListener('hardwareBackPress', this.onBackAndroid);
         }
     }
 
-    onBackAndroid(){
-        this.props.navigator.pop();
-    }
+
 }
 
 const styles = StyleSheet.create({

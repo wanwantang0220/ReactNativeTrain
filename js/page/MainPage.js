@@ -13,6 +13,8 @@ import TabBar from '../components/TabBar';
 
 export default class MainPage extends Component {
 
+
+
     constructor(props) {
         super(props);
         MainPage.switchToWebViewPage = MainPage.switchToWebViewPage.bind(this);
@@ -40,22 +42,23 @@ export default class MainPage extends Component {
     }
 
     componentDidMount() {
-        if (Platform.OS === 'android') {
-            BackHandler.addEventListener('hardwareBackPress', function () {
-                BackHandler.exitApp(0);
-                // this.props.navigator.pop();
-                return true;
-            })
-        }
+        // if (Platform.OS === 'android') {
+        //     BackHandler.addEventListener('hardwareBackPress', function () {
+        //         BackHandler.exitApp(0);
+        //         // this.props.navigator.pop();
+        //         return true;
+        //     })
+        // }
     }
 
 
 
     render() {
+        const {navigator} =this.props;
         return (
 
             <View style={{flex: 1, justifyContent: 'flex-end'}}>
-                <TabBar navigator={this.props.navigator}/>
+                <TabBar navigator={navigator}/>
             </View>
 
         );

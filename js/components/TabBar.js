@@ -59,7 +59,7 @@ export default class TabBar extends Component {
                     renderSelectedIcon={() => <Image style={styles.tab} source={this.state.homeSelected} />}
                     onPress={() => this.setState({ selectedTab: 'home' })}>
 
-                    {<ScrollableTabPage navigator={this.props.navigator}/>}
+                    {<ScrollableTabPage navigator={this.props}/>}
                 </TabNavigator.Item>
 
                 <TabNavigator.Item

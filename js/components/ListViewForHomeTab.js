@@ -78,14 +78,15 @@ export default class ListViewForHomeTab extends Component {
     }
 
     titleCallBack(rowData) {
-       // MainPage.switchToWebViewPage(rowData);
-        this.props.navigator.push({
-            component:WebViewPage,
-            args:{
-                rowData:rowData
-            }
-
-        });
+        // this.props.navigator.navigate('Web');
+        // this.props.navigator.push({
+        //     name: 'WebViewPage',
+        //     component:WebViewPage,
+        //     args:{
+        //         rowData:rowData
+        //     }
+        //
+        // });
     }
 }
 
