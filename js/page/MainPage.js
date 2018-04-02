@@ -42,12 +42,14 @@ export default class MainPage extends Component {
     componentDidMount() {
         if (Platform.OS === 'android') {
             BackHandler.addEventListener('hardwareBackPress', function () {
-                // BackHandler.exitApp(0);
-                this.props.navigator.pop();
+                BackHandler.exitApp(0);
+                // this.props.navigator.pop();
                 return true;
             })
         }
     }
+
+
 
     render() {
         return (

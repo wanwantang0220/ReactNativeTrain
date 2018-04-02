@@ -8,7 +8,7 @@ import {
     WebView,
     ToastAndroid,
     BackAndroid,
-    ActivityIndicator
+    ActivityIndicator, BackHandler
 } from 'react-native';
 import px2dp from '../util/px2dp';
 import theme from '../config/theme';
@@ -26,6 +26,23 @@ export default class WebViewPage extends Component {
         return (
             <Text>Test</Text>
         )
+    }
+
+    componentDidMount() {
+        if (Platform.OS === 'android') {
+            BackHandler.addEventListener('hardwareBackPress', this.onBackAndroid);
+
+        }
+    }
+
+    componentWillUnmount(){
+        if (Platform.OS === 'android') {
+            BackHandler.removeEventListener('hardwareBackPress', this.onBackAndroid);
+        }
+    }
+
+    onBackAndroid(){
+        this.props.navigator.pop();
     }
 }
 
