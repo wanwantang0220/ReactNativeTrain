@@ -59,9 +59,9 @@ export default class NotifyFragmentPage extends Component {
                             sections={this.state.data}
                             getItemLayout={this.getItemLayout}/>
 
-                        <CitySectionList
-                            sections={this.state.sections}
-                            onSectionSelect={this.onSectionselect}/>
+                        {/*<CitySectionList*/}
+                            {/*sections={this.state.sections}*/}
+                            {/*onSectionSelect={this.onSectionselect}/>*/}
 
                     </View>
                 </View>
