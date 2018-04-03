@@ -78,7 +78,7 @@ export default class CompassFragmentPage extends Component {
             return (
                 <View>
                     {dataSource.map((item, index) => {
-                        return <CompassItem compassItem={item} />
+                        return <CompassItem key={index} compassItem={item}/>
                     })}
                 </View>
 
@@ -88,11 +88,6 @@ export default class CompassFragmentPage extends Component {
     }
 
 
-    renderItem(dataBlob) {
-        return (
-            <Text>dataBlob.title</Text>
-        )
-    }
 
     /**
      * 获取API数据
