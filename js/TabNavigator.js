@@ -17,21 +17,27 @@ const TabView = TabNavigator({
         screen: ScrollableTabPage,
         navigationOptions: {
             //默认参数
-            alignSelf: 'center'
+            headerTitleStyle: {
+                alignSelf: 'center'
+            },
         }
     },
     Compass: {
         screen: CompassFragmentPage,
         lazyLoad: false,
         navigationOptions: {
-            alignSelf: 'center'
+            headerTitleStyle: {
+                alignSelf: 'center'
+            },
         }
     },
     Notify: {
         screen: NotifyFragmentPage,
         lazyLoad: false,
         navigationOptions: {
-
+            headerTitleStyle: {
+                alignSelf: 'center'
+            },
         }
     },
     Me: {
@@ -70,7 +76,7 @@ const TabView = TabNavigator({
             fontSize: 12, // 文字大小,
             marginTop: 0,
             textAlign:'center',
-            padding:12
+            paddingTop:10
         },
     },
 });
