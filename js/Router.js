@@ -3,7 +3,7 @@ import Navigation from "./Navigation";
 import WebViewPage from "./page/WebViewPage";
 import TabView from "./TabNavigator";
 import TestPage from "./page/TestPage";
-
+import DetailPage from "./page/DetailPage";
 
 
 const Router = StackNavigator({
@@ -18,6 +18,10 @@ const Router = StackNavigator({
     Test:{
         title:'Test',
         screen:TestPage
+    },
+    Detail:{
+        title:'Detail',
+        screen:DetailPage
     }
 });
 module.exports = Router;

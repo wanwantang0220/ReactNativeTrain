@@ -74,11 +74,12 @@ export default class CompassFragmentPage extends Component {
 
         const dataSource = this.state.dataBlob;
         console.log('dataSource', dataSource);
+        const {navigate} = this.props.navigation;
         if (!this.state.refreshing || this.state.loadedData) {
             return (
                 <View>
                     {dataSource.map((item, index) => {
-                        return <CompassItem key={index} compassItem={item}/>
+                        return <CompassItem key={index} compassItem={item} navigate={navigate} />
                     })}
                 </View>
 

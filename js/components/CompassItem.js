@@ -1,7 +1,8 @@
 import React, {Component} from "react";
-import {PixelRatio, StyleSheet, Text, View, Image} from "react-native";
+import {PixelRatio, StyleSheet, Text, View, Image, Button, TouchableOpacity, Alert} from "react-native";
 import theme from "../config/theme";
 import px2dp from "../util/px2dp";
+import TextButton from "./TextButton";
 
 export default class CompassItem extends Component {
 
@@ -15,6 +16,7 @@ export default class CompassItem extends Component {
 
         const data = this.props.compassItem;
         console.log('data', data);
+        const {navigate} = this.props.navigate;
         return (
             <View style={{flexDirection: 'row'}}>
                 <View style={[styles.row, {
@@ -24,14 +26,30 @@ export default class CompassItem extends Component {
                     <View style={{flex: 2}}>
                         <Image style={{height: 150}} source={{uri: data.screenshot}}/>
                     </View>
-                    <View style={[styles.text]}>
-                        <Text style={{fontSize: 14, fontWeight: 'bold'}}> {data.content}</Text>
-                        <Text style={{fontSize: 12, marginTop: 5, marginLeft: 5}}>{data.city}</Text>
+                    <Text style={[styles.text, {fontSize: 14, fontWeight: 'bold'}]}> {data.content}</Text>
+                    <View style={[styles.text, {flexDirection: 'row'}]}>
+                        <Text style={{flex: 1, fontSize: 12, marginTop: 5, marginLeft: 5}}>{data.city}</Text>
+                        <TouchableOpacity
+                            style={[styles.btn]}
+                            onPress={()=> navigate('Detail')} activeOpacity={0.2} focusedOpacity={0.5}>
+                            <View>
+                                <Text style={{color: '#ffffff', fontSize: 12}}>报名参加</Text>
+                            </View>
+                        </TouchableOpacity>
                     </View>
 
                 </View>
             </View>
         )
+    }
+
+
+    pressEvent() {
+        this.props.navigation.navigate('Detail');
+        // Alert.alert('alert', 'test', [
+        //     {text: 'ask me later', onPress: () => console.log('ask me later')},
+        //     {text: 'cancle', onPress: () => console.log('cancle')}
+        // ])
     }
 }
 
@@ -66,7 +84,16 @@ const styles = StyleSheet.create({
         flex: 1,
         marginLeft: 10,
         marginRight: 10,
-        marginTop: 10,
+        marginTop: 5,
         marginBottom: 10
+    },
+    btn: {
+        width: 80,
+        height: 25,
+        borderRadius: 30,
+        backgroundColor: '#4d91fd',
+        justifyContent: 'center',
+        alignItems: 'center',
+
     }
 });
