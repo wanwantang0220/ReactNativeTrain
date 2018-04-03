@@ -15,8 +15,8 @@ export default class CompassItem extends Component {
     render() {
 
         const data = this.props.compassItem;
+        const onPress = this.props.onPress;
         console.log('data', data);
-        const {navigate} = this.props.navigate;
         return (
             <View style={{flexDirection: 'row'}}>
                 <View style={[styles.row, {
@@ -31,7 +31,7 @@ export default class CompassItem extends Component {
                         <Text style={{flex: 1, fontSize: 12, marginTop: 5, marginLeft: 5}}>{data.city}</Text>
                         <TouchableOpacity
                             style={[styles.btn]}
-                            onPress={()=> navigate('Detail')} activeOpacity={0.2} focusedOpacity={0.5}>
+                            onPress={this.props.onPress} activeOpacity={0.2} focusedOpacity={0.5}>
                             <View>
                                 <Text style={{color: '#ffffff', fontSize: 12}}>报名参加</Text>
                             </View>

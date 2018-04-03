@@ -79,7 +79,8 @@ export default class CompassFragmentPage extends Component {
             return (
                 <View>
                     {dataSource.map((item, index) => {
-                        return <CompassItem key={index} compassItem={item} navigate={navigate} />
+                        return <CompassItem key={index} compassItem={item} navigate={navigate}
+                                            onPress={this.onPress.bind(this)}/>
                     })}
                 </View>
 
@@ -88,6 +89,10 @@ export default class CompassFragmentPage extends Component {
         }
     }
 
+
+    onPress() {
+        this.props.navigation.navigate('Detail');
+    }
 
 
     /**
