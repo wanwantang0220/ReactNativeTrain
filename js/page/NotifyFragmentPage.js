@@ -139,23 +139,4 @@ export default class NotifyFragmentPage extends Component {
     }
 }
 
-const styles = StyleSheet.create({
-
-    headerView: {
-        justifyContent: 'center',
-        height: HEADER_HEIGHT,
-        paddingLeft: 20,
-        backgroundColor: '#eee'
-    },
-    headerText: {
-        fontSize: 15,
-        fontWeight: 'bold',
-        color: '#3cb775'
-    },
-    itemView: {
-        flexDirection: 'row',
-        padding: 12,
-        alignItems: 'center',
-        height: ITEM_HEIGHT
-    }
-});
+a
